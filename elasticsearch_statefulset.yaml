@@ -68,14 +68,14 @@ spec:
           securityContext:
             privileged: true
 
-  volumeClaimTemplates:
+  PersistentVolumeClaim:
     - metadata:
         name: data
         labels:
           app: elasticsearch
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: do-block-storage
+        storageClassName: standard
         resources:
           requests:
-            storage: 5Gi
+            storage: 30Gi
