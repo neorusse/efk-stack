@@ -31,7 +31,7 @@ spec:
               name: inter-node
               protocol: TCP
           volumeMounts:
-            - name: data
+            - name: logstore
               mountPath: /usr/share/elasticsearch/data
           env:
             - name: cluster.name
@@ -55,7 +55,7 @@ spec:
           securityContext:
             privileged: true
           volumeMounts:
-            - name: data
+            - name: logstore
               mountPath: /usr/share/elasticsearch/data
         - name: increase-vm-max-map
           image: busybox
@@ -68,14 +68,7 @@ spec:
           securityContext:
             privileged: true
 
-  PersistentVolumeClaim:
-    - metadata:
-        name: data
-        labels:
-          app: elasticsearch
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        storageClassName: standard
-        resources:
-          requests:
-            storage: 30Gi
+      volumes:
+        - name: logstore # PVC
+          persistentVolumeClaim:
+            claimName: logstore
